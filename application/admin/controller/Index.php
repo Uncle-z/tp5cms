@@ -5,6 +5,10 @@ class Index
 {
     public function index()
     {
-        return view('index');
+        return view('main/home');
+    }
+    public function pageIndex()
+    {
+        return view('pageindex');
     }
 }

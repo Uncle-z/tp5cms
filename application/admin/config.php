@@ -15,8 +15,8 @@ return [
     // +----------------------------------------------------------------------
     'template' => [
         //开启全局布局
-        'layout_on'    => true,
+        //'layout_on'    => true,
         //home模板
-        'layout_name'  => 'Main/home',
+        //'layout_name'  => 'Main/home',
     ]
 ];
