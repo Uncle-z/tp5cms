@@ -1,8 +1,6 @@
 <?php 
 namespace app\admin\controller;
-
 use think\Controller;
-use think\View;
 
 /**
 * 后台母控制器
@@ -25,6 +23,8 @@ class Admin extends Controller
      * 判断用户是否已经登陆
      */
     final public function check_admin() {
+        $request = request();
+        //dump($request->module());
         // if(ROUTE_M =='admin' && ROUTE_C =='index' && in_array(ROUTE_A, array('login', 'public_card'))) {
         //     return true;
         // } else {
