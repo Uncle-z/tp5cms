@@ -1,6 +1,7 @@
 <?php 
 namespace app\admin\controller;
 use think\Controller;
+use think\Request;
 
 /**
 * 后台母控制器
@@ -12,9 +13,11 @@ class Admin extends Controller
 {
     public $userid;
     public $username;
+    public $request;
 
-    public function _initialize()
+    public function __construct(Request $request)
     {
+        $this->request = $request;
         self::check_admin();
         self::check_priv();
     }
@@ -23,18 +26,15 @@ class Admin extends Controller
      * 判断用户是否已经登陆
      */
     final public function check_admin() {
-        $request = request();
-        //dump($request->module());
-        // if(ROUTE_M =='admin' && ROUTE_C =='index' && in_array(ROUTE_A, array('login', 'public_card'))) {
-        //     return true;
-        // } else {
-        //     $userid = param::get_cookie('userid');
-        //     if(!isset($_SESSION['userid']) || !isset($_SESSION['roleid']) || !$_SESSION['userid'] || !$_SESSION['roleid'] || $userid != $_SESSION['userid']) showmessage(L('admin_login'),'?m=admin&c=index&a=login');
-        // }
-        if(!isset($_SESSION['userid']) || !isset($_SESSION['roleid']) || !$_SESSION['userid'] || !$_SESSION['roleid'] || $userid != $_SESSION['userid']) {
-            //dump('session');
-            $this->redirect('admin/login/login');
-        };
+        if($this->request->module() =='admin' && $this->request->controller() =='Index' && $this->request->action() =='login') {
+            return true;
+        } else {
+            $userid = cookie('userid');
+            if(session('?userid') || session('?roleid') || !session('userid') || !session('roleid') || $userid != session('userid')) {
+                $this->redirect('/admin/index/login');
+            }
+        }
+        
     }
 
     /**

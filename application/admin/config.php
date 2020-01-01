@@ -18,5 +18,15 @@ return [
         //'layout_on'    => true,
         //home模板
         //'layout_name'  => 'Main/home',
-    ]
+    ],
+    'session'                => [
+        //session 名称前缀
+	    'prefix'         => 'admin',
+	],
+    'cookie'                 => [
+        // cookie 名称前缀
+        'prefix'    => 'admin',
+        // cookie 保存时间
+        'expire'    => 3600,
+    ],
 ];

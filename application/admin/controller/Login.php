@@ -10,7 +10,7 @@ use app\admin\model\Admin;
 * 登陆注册
 * author：uncle_z
 */
-class Login extends Controller
+class Login extends AdminController
 {
     protected $request;
 
@@ -35,8 +35,8 @@ class Login extends Controller
                 $this->error('两次密码不相同', '/admin/login/register');
             }           
         }else{
-            return view('register');
-        }       
+            return view('login.register');
+        }
     }
     //登陆
     public function login()
