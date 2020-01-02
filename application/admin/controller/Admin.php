@@ -30,7 +30,7 @@ class Admin extends Controller
             return true;
         } else {
             $userid = cookie('userid');
-            if(session('?userid') || session('?roleid') || !session('userid') || !session('roleid') || $userid != session('userid')) {
+            if(!session('?userid') || !session('?roleid') || !session('userid') || !session('roleid') || $userid != session('userid')) {
                 $this->redirect('/admin/index/login');
             }
         }

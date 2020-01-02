@@ -13,20 +13,14 @@ return [
     // +----------------------------------------------------------------------
     // | 模板设置
     // +----------------------------------------------------------------------
-    'template' => [
-        //开启全局布局
-        //'layout_on'    => true,
-        //home模板
-        //'layout_name'  => 'Main/home',
-    ],
     'session'                => [
-        //session 名称前缀
-	    'prefix'         => 'admin',
+        'prefix'         => 'admin',
+        'type'           => '',
+        'auto_start'     => true,
+        'expire'         => 3600,
 	],
     'cookie'                 => [
-        // cookie 名称前缀
-        'prefix'    => 'admin',
         // cookie 保存时间
-        'expire'    => 3600,
+        'expire'    => 10800,
     ],
 ];
