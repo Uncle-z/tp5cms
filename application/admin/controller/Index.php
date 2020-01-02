@@ -38,11 +38,11 @@ class Index extends AdminController
             $info = $info->toArray();
 
             $password = md5(md5(trim($this->request->param('password'))).$info['encrypt']);
-            dump($password);
+
             if($password === $info['password']){
                 $this->success('登录成功！', '/admin');
             }else{
-                //$this->error('密码错误，请重试', '/admin/index/login');
+                $this->error('密码错误，请重试', '/admin/index/login');
             }
         }else{
             return view('login');
