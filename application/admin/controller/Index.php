@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use app\admin\controller\Admin as AdminController;
 use app\admin\model\Admin;
+use app\admin\model\Role;
 /*
 * author: uncle;
 * time: 2020-01-01;
@@ -11,7 +12,8 @@ class Index extends AdminController
     //后台模板
     public function index()
     {
-        return view('main/home');
+        $rolename = Role::where('roleid',session('roleid'))->value('rolename');
+        return view('main/home',['username' => cookie('admin_username'), 'rolename' => $rolename]);
     }
     //后台模板首页
     public function pageIndex()

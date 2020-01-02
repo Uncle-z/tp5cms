@@ -20,6 +20,8 @@ class Admin extends Controller
         $this->request = $request;
         self::check_admin();
         self::check_priv();
+        self::check_hash();
+        self::check_ip();
     }
 
     /**
@@ -41,7 +43,19 @@ class Admin extends Controller
      * 判断用户是否有权限
      */
     final public function check_priv() {
-
+        return false;
+    }
+    /**
+     * 检查hash值，验证用户数据安全性
+     */
+    final private function check_hash() {
+        return false;
+    }
+    /**
+     * 后台IP禁止判断 ...
+     */
+    final private function check_ip(){
+        return false;
     }
 }
 
