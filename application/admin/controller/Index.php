@@ -1,13 +1,12 @@
 <?php
 namespace app\admin\controller;
-use app\admin\controller\Admin as AdminController;
-use app\admin\model\Admin;
+use app\admin\controller\Admin;
 use app\admin\model\Role;
 /*
 * author: uncle;
 * time: 2020-01-01;
 */
-class Index extends AdminController
+class Index extends Admin
 {
     //后台模板
     public function index()
@@ -16,9 +15,9 @@ class Index extends AdminController
         return view('main/home',['username' => cookie('admin_username'), 'rolename' => $rolename]);
     }
     //后台模板首页
-    public function pageIndex()
+    public function board()
     {
-        return view('pageindex');
+        return view('board');
     }
     /*
     * 登录
@@ -31,9 +30,8 @@ class Index extends AdminController
                 return;
             }
 
-            $user = new Admin();
             // 查询单个数据
-            $info = $user->where('username', $this->request->param('username'))->find();
+            $info = $this->user->where('username', $this->request->param('username'))->find();
             
             if(!$info){
                $this->error('用户名'. $this->request->param('username') .'不存在', '/admin/index/login');
@@ -48,7 +46,7 @@ class Index extends AdminController
                 session('roleid', $info['roleid']);
                 cookie('admin_username', $info['username'], 10800);
                 cookie('userid', $info['userid'], 10800);
-                $user->save([
+                $this->user->save([
                     'lastloginip'  => $this->request->ip(),
                     'lastlogintime' => time()
                 ],['userid' => $info['userid']]);

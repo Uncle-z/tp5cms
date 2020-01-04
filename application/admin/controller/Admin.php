@@ -2,7 +2,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Request;
-
+use app\admin\model\User;
 /**
 * 后台母控制器
 * author: uncle_z
@@ -12,12 +12,13 @@ define('IN_ADMIN',true);
 class Admin extends Controller
 {
     public $userid;
-    public $username;
+    public $user;
     public $request;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request,User $user)
     {
         $this->request = $request;
+        $this->user = $user;
         self::check_admin();
         self::check_priv();
         self::check_hash();
