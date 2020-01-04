@@ -17,7 +17,8 @@ class Index extends Admin
     //后台模板首页
     public function board()
     {
-        return view('board');
+        //dump($this->request->server());
+        return view('board',['PHP_OS' => PHP_OS, 'server_info' => $this->request->server('SERVER_SOFTWARE'), 'tp_v' => THINK_VERSION]);
     }
     /*
     * 登录
@@ -30,7 +31,7 @@ class Index extends Admin
                 return;
             }
 
-            // 查询单个数据
+            // 查询单个用户
             $info = $this->user->where('username', $this->request->param('username'))->find();
             
             if(!$info){
