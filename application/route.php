@@ -10,12 +10,14 @@
 // +----------------------------------------------------------------------
 
 return [
-    // '__pattern__' => [
-    //     'name' => '\w+',
-    // ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
+    '__pattern__' => [
+        'name' => '\w+',
+    ],
+    '__rest__'=>[
+        // 指向admin模块的manage控制器
+        'manage'=>'admin/manage',
+        'role'=>'admin/role',
+        'menu'=>'admin/menu',
     ],
 
 ];

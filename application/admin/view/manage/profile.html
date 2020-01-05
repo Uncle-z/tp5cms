@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人资料</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="__STATIC__/css/admin_css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/admin_css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/admin_css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/admin_css/style.min862f.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人资料</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="javascript:void(0)">选项1</a>
+                                </li>
+                                <li><a href="javascript:void(0)">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" action="/admin/manage/15/edit" method="POST">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户名：</label>
+                                <div class="col-sm-8">
+                                    <input id="cname" name="username" minlength="2" type="text" class="form-control" required="" aria-required="true" value="{$myinfo.username}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">角色：</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control m-b" name="roleid" required="" aria-required="true" value="{$myinfo.roleid}">
+                                        <option value="0">选择角色</option>
+                                        {volist name="roles" id="vo"}
+                                        <option value="{$key}" {eq name="key" value="$myinfo.roleid"}selected{/eq}>{$vo}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">真实名字：</label>
+                                <div class="col-sm-8">
+                                    <input id="curl" type="text" class="form-control" name="rolename" required="" aria-required="true" value="{$myinfo.realname}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">E-mail：</label>
+                                <div class="col-sm-8">
+                                    <input id="cemail" type="email" class="form-control" name="email" required="" aria-required="true" value="{$myinfo.email}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-3">
+                                    <button class="btn btn-primary" type="submit">提交</button>
+                                    <button class="btn btn-white" type="button">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/js/admin_js/jquery.min.js?v=2.1.4"></script>
+    <script src="__STATIC__/js/admin_js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__STATIC__/js/admin_js/content.min.js?v=1.0.0"></script>
+    <script src="__STATIC__/js/admin_js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="__STATIC__/js/admin_js/plugins/validate/messages_zh.min.js"></script>
+    <script src="__STATIC__/js/admin_js/demo/form-validate-demo.min.js"></script>
+</body>
+</html>

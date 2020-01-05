@@ -15,20 +15,12 @@ class User extends Model
     {
         parent::initialize();
     }
-
-    //protected $readonly = ['name','email'];
-    
-    public function index()
-    {
-        //return $admin = model('admin');
-    }
-
     /*
-    *创建用户
+    * 个人资料
     */
-    public function add()
+    public function profile()
     {
-        //return request()->param();
+        return $this->hasOne('Role');
     }
 }
 
