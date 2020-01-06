@@ -21,11 +21,46 @@ class Manage extends Admin
     * 个人资料
     */
     public function profile()
-    {
-        $myinfo = User::get(session('userid'));
+    {   
+        $user = User::get(session('userid'));
         $roles = Role::where('disable',0)->column('roleid,rolename');
-        //dump($myinfo->role->rolename);
-        return view('profile',['myinfo' => $myinfo, 'roles' => $roles]);
+        if($this->request->isPost()){
+            $user->save([
+                'roleid' => $this->request->param('roleid'), 
+                'realname' => $this->request->param('realname'), 
+                'email' => $this->request->param('email')
+            ],['userid' => session('userid')]);
+        }
+        return view('profile',['user' => $user, 'roles' => $roles]);
+    }
+    /*
+    * 修改密码
+    */
+    public function editPwd()
+    {
+        $user = User::get(session('userid'));
+        $roles = Role::where('disable',0)->column('roleid,rolename');
+        if($this->request->isPost()){
+            if($user->password === $this->request->param('password')){
+                if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
+                    $password = password($this->request->param('newpassword'));
+                    $this->user->save([
+                        'password' => $password['password'],
+                        'encrypt' => $password['encrypt']
+                    ],['userid' => session('userid')]);
+                }else{
+                    $this->error('两次密码不相同', '/admin/manage/editPwd');
+                }
+            }else{
+                $this->error('旧密码输入不正确', '/admin/manage/editPwd');
+            }
+        }
+
+        if($this->request->isAjax()){
+            return ['status' => 'success'];
+        }
+
+        return view('edit_pwd', ['user' => $user]);
     }
 	/*
     * 创建用户

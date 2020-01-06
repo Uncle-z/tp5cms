@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use app\admin\controller\Admin;
 use app\admin\model\Role;
+use app\admin\model\User;
 /*
 * author: uncle;
 * time: 2020-01-01;
@@ -31,26 +32,25 @@ class Index extends Admin
                 return;
             }
 
-            // 查询单个用户
-            $info = $this->user->where('username', $this->request->param('username'))->find();
+            // 查询用户
+            $user = User::get(['username' => $this->request->param('username')]);
             
-            if(!$info){
+            if(!$user){
                $this->error('用户名'. $this->request->param('username') .'不存在', '/admin/index/login');
                 return;
             }
-            $info = $info->toArray();
 
-            $password = md5(md5(trim($this->request->param('password'))).$info['encrypt']);
+            $password = md5(md5(trim($this->request->param('password'))).$user->encrypt);
 
-            if($password === $info['password']){
-                session('userid', $info['userid']);
-                session('roleid', $info['roleid']);
-                cookie('admin_username', $info['username'], 10800);
-                cookie('userid', $info['userid'], 10800);
+            if($password === $user->password){
+                session('userid', $user->userid);
+                session('roleid', $user->roleid);
+                cookie('admin_username', $user->username, 10800);
+                cookie('userid', $user->userid, 10800);
                 $this->user->save([
                     'lastloginip'  => $this->request->ip(),
                     'lastlogintime' => time()
-                ],['userid' => $info['userid']]);
+                ],['userid' => $user->userid]);
 
                 $this->success('登录成功！', '/admin');
             }else{

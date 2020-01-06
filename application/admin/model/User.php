@@ -18,13 +18,6 @@ class User extends Model
     {
         parent::initialize();
     }
-    /*
-    * 个人资料
-    */
-    public function role()
-    {
-        return $this->hasOne('Role','userid');
-    }
 }
 
 

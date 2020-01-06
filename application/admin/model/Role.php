@@ -15,5 +15,11 @@ class Role extends Model
         parent::initialize();
         //TODO:自定义的初始化
     }
+    /*
+    * 角色关联用户
+    */
+   	public function users(){
+   		return $this->hasMany('User','roleid');
+   	}
 }
 ?>
