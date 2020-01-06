@@ -41,13 +41,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">用户名：</label>
                                 <div class="col-sm-8">
-                                    <input id="cname" name="username" minlength="2" type="text" class="form-control" required="" aria-required="true" value="{$myinfo.username}"/>
+                                    <input id="cname" type="text" class="form-control" name="username" required="" aria-required="true" value="{$myinfo.username}" disabled="" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">角色：</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control m-b" name="roleid" required="" aria-required="true" value="{$myinfo.roleid}">
+                                    <select class="form-control m-b" name="roleid" required="" aria-required="true">
                                         <option value="0">选择角色</option>
                                         {volist name="roles" id="vo"}
                                         <option value="{$key}" {eq name="key" value="$myinfo.roleid"}selected{/eq}>{$vo}</option>

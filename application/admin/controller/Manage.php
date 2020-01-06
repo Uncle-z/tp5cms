@@ -24,7 +24,7 @@ class Manage extends Admin
     {
         $myinfo = User::get(session('userid'));
         $roles = Role::where('disable',0)->column('roleid,rolename');
-        //dump($myinfo->profile());
+        //dump($myinfo->role->rolename);
         return view('profile',['myinfo' => $myinfo, 'roles' => $roles]);
     }
 	/*

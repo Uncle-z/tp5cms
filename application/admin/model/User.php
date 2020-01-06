@@ -2,6 +2,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use traits\model\SoftDelete;
 
 /**
 * author: uncle;
@@ -10,6 +11,8 @@ use think\Model;
 
 class User extends Model
 {
+    protected $readonly = ['username'];
+    protected $deleteTime = 'delete_time';
     
     protected function initialize()
     {
@@ -18,9 +21,9 @@ class User extends Model
     /*
     * 个人资料
     */
-    public function profile()
+    public function role()
     {
-        return $this->hasOne('Role');
+        return $this->hasOne('Role','userid');
     }
 }
 
