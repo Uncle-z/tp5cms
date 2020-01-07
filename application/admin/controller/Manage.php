@@ -41,13 +41,16 @@ class Manage extends Admin
         $user = User::get(session('userid'));
         $roles = Role::where('disable',0)->column('roleid,rolename');
         if($this->request->isPost()){
-            if($user->password === $this->request->param('password')){
+            $password = md5(md5(trim($this->request->param('password'))).$user->encrypt);
+            //校验旧密码
+            if($user->password === $password){
                 if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
-                    $password = password($this->request->param('newpassword'));
+                    $newpassword = password($this->request->param('newpassword'));
                     $this->user->save([
-                        'password' => $password['password'],
-                        'encrypt' => $password['encrypt']
+                        'password' => $newpassword['password'],
+                        'encrypt' => $newpassword['encrypt']
                     ],['userid' => session('userid')]);
+                    $this->success('密码修改成功', '/admin/manage/editPwd');
                 }else{
                     $this->error('两次密码不相同', '/admin/manage/editPwd');
                 }
