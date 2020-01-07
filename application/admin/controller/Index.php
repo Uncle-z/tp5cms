@@ -15,7 +15,7 @@ class Index extends Admin
         $rolename = Role::where('roleid',session('roleid'))->value('rolename');
         return view('main/home',['username' => cookie('admin_username'), 'rolename' => $rolename]);
     }
-    //后台模板首页
+    //后台消息看板
     public function board()
     {
         //dump($this->request->server());

@@ -59,10 +59,6 @@ class Manage extends Admin
             }
         }
 
-        if($this->request->isAjax()){
-            return ['status' => 'success'];
-        }
-
         return view('edit_pwd', ['user' => $user]);
     }
 	/*
