@@ -9,6 +9,12 @@ use app\admin\model\User;
 */
 class Index extends Admin
 {
+
+    function __construct(User $user)
+    {
+        parent::__construct();
+        $this->user = $user;
+    }
     //后台模板
     public function index()
     {

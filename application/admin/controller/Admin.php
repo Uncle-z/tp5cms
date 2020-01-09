@@ -1,28 +1,24 @@
 <?php 
 namespace app\admin\controller;
 use think\Controller;
-use think\Request;
-use app\admin\model\User;
 /**
-* 后台母控制器
+* Admin controller
 * author: uncle_z
 */
 define('IN_ADMIN',true);
 
 class Admin extends Controller
 {
-    public $userid;
-    public $user;
-    public $request;
-
-    public function __construct(Request $request,User $user)
+    protected $user;//用户
+    protected $role;//角色
+    protected $auth;//权限
+    public function __construct()
     {
-        $this->request = $request;
-        $this->user = $user;
-        self::check_admin();
-        self::check_priv();
-        self::check_hash();
-        self::check_ip();
+        $this->request = request();
+        self::check_admin();//检查登陆
+        self::check_auth(); //检查权限
+        self::check_hash(); //检查哈希
+        self::check_ip();   //检查ip
     }
 
     /**
@@ -43,7 +39,7 @@ class Admin extends Controller
     /**
      * 判断用户是否有权限
      */
-    final public function check_priv() {
+    final public function check_auth() {
         return false;
     }
     /**

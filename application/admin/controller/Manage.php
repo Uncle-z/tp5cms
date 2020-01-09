@@ -7,14 +7,30 @@ use app\admin\model\Role;
 *author: uncle;
 *time: 2020-01-01;
 */
-
 class Manage extends Admin
 {
+
+    function __construct(User $user)
+    {
+        parent::__construct();
+        $this->user = $user;
+    }
     /*
     *   查看多有管理人员
     */
 	public function index()
     {
+        $list = User::all(function($query){
+            $query->order('userid', 'asc');
+        });
+        if($this->request->isAjax()){
+            return [
+                "code" => 0,
+                "msg"  => "success",
+                "count"=> User::count(),
+                "data" => $list
+            ];
+        }
         return view('index');
     }
     /*
@@ -64,7 +80,7 @@ class Manage extends Admin
 	/*
     * 创建用户
     */
-    public function add()
+    public function create()
     {
         if($this->request->isPost()){
             $hasname = $this->user->where('username',$this->request->param('username/s'))->find();
@@ -91,6 +107,20 @@ class Manage extends Admin
         }else{
             return view('login/register');
         }
+    }
+    /*
+    * 编辑用户信息
+    */
+    public function edit()
+    {
+
+    }
+    /*
+    * 删除
+    */
+    public function delete()
+    {
+
     }
 }
 

@@ -4,55 +4,29 @@
         <div class="layui-col-md*">
             <h3 class="ibox-title">管理员管理 | <button type="button" class="layui-btn layui-btn-sm">添加管理员</button></h3>
             <div class="ibox-content">
-                <table class="layui-table">
-                  <colgroup>
-                    <col width="150">
-                    <col width="200">
-                    <col>
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th>序号</th>
-                      <th>用户名</th>
-                      <th>所属角色</th>
-                      <th>最后登录IP</th>
-                      <th>最后登录时间</th>
-                      <th>E-mail</th>
-                      <th>真实名字</th>
-                      <th>管理操作</th>
-                    </tr> 
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>贤心</td>
-                      <td>2016-11-29</td>
-                      <td>人生就</td>
-                      <td>人生就像</td>
-                      <td>人生就像</td>
-                      <td>人生就像</td>
-                      <td>人生就像是一场</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>贤心</td>
-                      <td>2016-11-29</td>
-                      <td>人生就</td>
-                      <td>人生就像</td>
-                      <td>人生就像</td>
-                      <td>人生就像</td>
-                      <td>人生就像是一场</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <table id="data-list"></table>
             </div>
         </div>
     </div>
 </div>
 <script>
 $(function(){
-  layui.use('form', function(){ 
-    var form = layui.form //获取form模块
+  layui.use('table', function(){ 
+    var table = layui.table //获取table模块
+    table.render({
+      elem: '#data-list',
+      height: 480,
+      url: '/admin/manage',
+      cols: [[
+        {field: 'userid', title: '序号', width:80, fixed: 'left'},
+        {field: 'username', title: '用户名', width:120},
+        {field: 'rolename', title: '所属角色', width:120},
+        {field: 'lastloginip', title: '最后登录IP',},
+        {field: 'lastlogintime', title: '最后登录时间'},
+        {field: 'email', title: 'E-mail', width: 200},
+        {field: 'realname', title: '真实名字'}
+      ]]
+    });
   });
 });
 </script>
