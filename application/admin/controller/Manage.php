@@ -20,15 +20,15 @@ class Manage extends Admin
     */
 	public function index()
     {
-        $list = User::all(function($query){
-            $query->order('userid', 'asc');
-        });
+        $user = new User();
+        $users = $user->getUsers();
+
         if($this->request->isAjax()){
             return [
                 "code" => 0,
                 "msg"  => "success",
                 "count"=> User::count(),
-                "data" => $list
+                "data" => $users
             ];
         }
         return view('index');
