@@ -1,5 +1,7 @@
 <?php
 namespace app\admin\model;
+
+use think\Db;
 use think\Model;
 
 /**
@@ -18,8 +20,14 @@ class Role extends Model
     /*
     * 角色关联用户
     */
-   	public function users(){
+   	public function users()
+    {
    		return $this->hasMany('User','roleid');
    	}
+
+    public function getRoles()
+    {
+      return Db::name('role')->field(['roleid','rolename'])->select();
+    }
 }
 ?>

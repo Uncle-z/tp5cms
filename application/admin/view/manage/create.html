@@ -1,0 +1,75 @@
+{include file="public/header" /}
+<div class="layui-fluid wrapper animated fadeInRight">
+    <div class="layui-row">
+        <div class="layui-col-md*">
+            <h3 class="ibox-title">添加管理员</h3>
+            <div class="ibox-content">
+                <form class="layui-form" action="/admin/manage/create" method="POST">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" required  lay-verify="required" placeholder="输入用户名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码：</label>
+                        <div class="layui-input-inline">
+                          <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">登录密码</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码：</label>
+                        <div class="layui-input-inline">
+                          <input type="password" name="pwdconfirm" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">重复密码</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">E-mail：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" required  lay-verify="required" placeholder="输入邮箱" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">真实姓名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="realname" required  lay-verify="required" placeholder="真实姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">角色：</label>
+                        <div class="layui-input-block">
+                            <select name="roleid" lay-verify="required">
+                                <option value="0">选择角色</option>
+                                {volist name="roles" id="vo"}
+                                <option value="{$vo.roleid}">{$vo.rolename}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="addUser">添加</button>
+                            <button type="button" class="layui-btn layui-btn-primary" onclick="javascript: window.history.go(-1)">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+  layui.use('form', function(){ 
+    var form = layui.form //获取form模块 
+
+    form.on('submit(addUser)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+    });
+
+  });
+});
+</script>
+{include file="public/footer" /}

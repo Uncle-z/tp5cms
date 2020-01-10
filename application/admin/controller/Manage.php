@@ -85,27 +85,30 @@ class Manage extends Admin
         if($this->request->isPost()){
             $hasname = $this->user->where('username',$this->request->param('username/s'))->find();
             if($hasname){
-               $this->error('用户名'. $this->request->param('username') .'已经存在', '/admin/manage/add');
-                return;
+                return ['status' => 'fail', 'mesg' => '用户名'. $this->request->param('username') .'已经存在'];
             }
+
             if(!is_password($this->request->param('password/s'))){
-                $this->error('密码长度需要大于6个且小于20个字符', '/admin/manage/add');
-                return;
+                return ['status' => 'fail', 'mesg' => '密码长度需要大于6个且小于20个字符'];
             }
 
             if($this->request->param('password/s') === $this->request->param('pwdconfirm/s')){
+
                 $password = password($this->request->param('password'));
                 $this->request->post(['password' => $password['password']]);
                 $this->request->post(['encrypt'  => $password['encrypt']]);
                 $user = new User($this->request->param());
-                $info = $user->allowField(['username', 'password', 'encrypt'])->save();
-                if($info) $this->success('注册成功,去登录！', 'admin/index/login');
-                $this->error('服务器错误，请重试', '/admin/manage/add');
+                $info = $user->allowField(true)->save();
+
+                if($info) return ['status' => 'success', 'mesg' => $info];
+                return ['status' => 'error', 'mesg' => '服务器错误，请刷新重试'];
+
             }else{
-                $this->error('两次密码不相同', '/admin/manage/add');
+                return ['status' => 'fail', 'mesg' => '两次密码不相同,请检查密码！'];
             }           
         }else{
-            return view('login/register');
+            $role = new Role();
+            return view('create', ['roles' => $role->getRoles()]);
         }
     }
     /*
