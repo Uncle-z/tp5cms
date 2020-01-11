@@ -25,9 +25,9 @@ class Role extends Model
    		return $this->hasMany('User','roleid');
    	}
 
-    public function getRoles()
+    public function getRoles($page = 1, $limit = 10)
     {
-      return Db::name('role')->field(['roleid','rolename'])->select();
+      return Db::name('role')->field(['roleid','rolename'])->page($page,$limit)->order('userid desc')->select();
     }
 }
 ?>

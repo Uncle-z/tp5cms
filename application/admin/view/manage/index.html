@@ -1,8 +1,8 @@
 {include file="public/header" /}
-<div class="layui-fluid wrapper animated fadeInRight">
+<div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
-            <h3 class="ibox-title">管理员管理 | <button type="button" class="layui-btn layui-btn-sm" onclick="addUser()">添加管理员</button></h3>
+            <h3 class="ibox-title">账号管理 | <a href="/manage/create" class="layui-btn layui-btn-sm">添加管理员</a></h3>
             <div class="ibox-content">
                 <table id="data-list" lay-filter="users"></table>
             </div>
@@ -10,20 +10,12 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <button class="layui-btn layui-btn-xs" lay-event="edit">修改</button>
+  <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
 </script>
 <script>
-function addUser(){
-  document.location.href = "/manage/create";
-  // layer.open({
-  //   type: 2,
-  //   area: ['780px', '560px'],
-  //   content: ['/manage/create', 'no']
-  // });
-}
-//加载layui
 $(function(){
+  var ememHeight = $(window).height() -150;
   layui.use(['table', 'layer'], function(){
     //获取layui模块
     var table = layui.table,
@@ -31,45 +23,53 @@ $(function(){
 
     table.render({
       elem: '#data-list',
-      height: 480,
-      url: '/admin/manage',
+      height: ememHeight,
+      url: '/manage',
+      page: true,
       cols: [[
         {field: 'userid', title: '序号', width:80, fixed: 'left'},
         {field: 'username', title: '用户名', width:120},
         {field: 'rolename', title: '所属角色', width:120},
         {field: 'lastloginip', title: '最后登录IP',},
         {field: 'lastlogintime', title: '最后登录时间'},
-        {field: 'email', title: 'E-mail', width: 200},
         {field: 'realname', title: '真实名字'},
+        {field: 'email', title: 'E-mail', width: 200},
         {fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
       ]]
     });
 
     table.on('tool(users)', function(obj){
-      console.log(obj);
-      var data = obj.data; //获得当前行数据
-      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-      var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+      var data = obj.data; 
+      var layEvent = obj.event; 
      
-      if(layEvent === 'detail'){ //查看
-        //do somehing
-      } else if(layEvent === 'del'){ //删除
-        layer.confirm('真的删除行么', function(index){
-          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-          layer.close(index);
-          //向服务端发送删除指令
+      if(layEvent === 'del'){
+        layer.confirm('真的要删除[ '+ data.username +' ]么', function(index){
+          $.ajax({
+            type: 'DELETE',
+            url: '/manage/' + data.userid,
+            success: function (res) {
+              if(res.status == 'success'){
+                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                layer.close(index);
+                layer.msg('删除成功');
+              }else{
+                layer.msg('删除失败！'+ res.msg);
+              }
+            }
+          });
         });
       } else if(layEvent === 'edit'){ //编辑
-        console.log(layEvent);
-        //do something
+        layer.open({
+          type: 2,
+          area: ['780px', '560px'],
+          content: ['/manage/create', 'no']
+        });
         
         //同步更新缓存对应的值
         // obj.update({
         //   username: '123',
         //   title: 'xxx'
         // });
-      } else if(layEvent === 'LAYTABLE_TIPS'){
-        layer.alert('Hi，头部工具栏扩展的右侧图标。');
       }
     });
   });

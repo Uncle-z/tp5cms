@@ -20,13 +20,20 @@ class User extends Model
         parent::initialize();
     }
 
-    public function getUsers() 
+    public function getUsers($page = 1, $limit = 10)
     {
-    	$users = Db::name('user')->field(['password','encrypt'],true)->select();
+    	$users = Db::name('user')->field(['password','encrypt'],true)->page($page,$limit)->order('userid desc')->select();
     	foreach ($users as &$user) {
-    		$user['rolename'] = Db::name('role')->where('roleid',$user['roleid'])->value('rolename');
+            $user['rolename'] = Db::name('role')->where('roleid',$user['roleid'])->value('rolename');
+    		$user['lastlogintime'] = $user['lastlogintime'] ? date('Y-m-d H:i:s', $user['lastlogintime']) : '尚未登录过账号';
     	}
-    	return $users;
+        
+        return [
+            "code" => 0,
+            "msg"  => "success",
+            "count"=> Db::name('user')->count(),
+            "data" => $users
+        ];
     }
 }
 

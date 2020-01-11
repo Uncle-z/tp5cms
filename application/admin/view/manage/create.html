@@ -1,10 +1,10 @@
 {include file="public/header" /}
-<div class="layui-fluid wrapper animated fadeInRight">
+<div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
             <h3 class="ibox-title">添加管理员</h3>
             <div class="ibox-content">
-                <form class="layui-form" action="/admin/manage/create" method="POST">
+                <form class="layui-form" action="/manage" method="POST">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名：</label>
                         <div class="layui-input-inline">
@@ -40,8 +40,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">角色：</label>
                         <div class="layui-input-block">
-                            <select name="roleid" lay-verify="required">
-                                <option value="0">选择角色</option>
+                            <select name="roleid" required lay-verify="required">
+                                <option value="">选择角色</option>
                                 {volist name="roles" id="vo"}
                                 <option value="{$vo.roleid}">{$vo.rolename}</option>
                                 {/volist}
@@ -51,7 +51,7 @@
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn" lay-submit lay-filter="addUser">添加</button>
-                            <button type="button" class="layui-btn layui-btn-primary" onclick="javascript: window.history.go(-1)">返回</button>
+                            <a href="/manage" class="layui-btn layui-btn-primary">返回</a>
                         </div>
                     </div>
                 </form>
@@ -65,8 +65,8 @@ $(function(){
     var form = layui.form //获取form模块 
 
     form.on('submit(addUser)', function(data){
-        layer.msg(JSON.stringify(data.field));
-        return false;
+        //layer.msg(JSON.stringify(data.field));
+        return true;
     });
 
   });

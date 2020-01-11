@@ -10,27 +10,23 @@ use app\admin\model\Role;
 class Manage extends Admin
 {
 
-    function __construct(User $user)
+    function __construct(User $user, Role $role)
     {
         parent::__construct();
         $this->user = $user;
+        $this->role = $role;
     }
     /*
     *   查看多有管理人员
     */
 	public function index()
     {
-        $user = new User();
-        $users = $user->getUsers();
 
         if($this->request->isAjax()){
-            return [
-                "code" => 0,
-                "msg"  => "success",
-                "count"=> User::count(),
-                "data" => $users
-            ];
+            $users = $this->user->getUsers($this->request->param('page'), $this->request->param('limit'));
+            return $users;
         }
+        
         return view('index');
     }
     /*
@@ -39,11 +35,11 @@ class Manage extends Admin
     public function profile()
     {   
         $user = User::get(session('userid'));
-        $roles = Role::where('disable',0)->column('roleid,rolename');
+        $roles = $this->role->getRoles();
+
         if($this->request->isPost()){
             $user->save([
-                'roleid' => $this->request->param('roleid'), 
-                'realname' => $this->request->param('realname'), 
+                'realname' => $this->request->param('realname'),
                 'email' => $this->request->param('email')
             ],['userid' => session('userid')]);
         }
@@ -55,41 +51,60 @@ class Manage extends Admin
     public function editPwd()
     {
         $user = User::get(session('userid'));
-        $roles = Role::where('disable',0)->column('roleid,rolename');
+        $roles = $this->role->getRoles();
+
         if($this->request->isPost()){
             $password = md5(md5(trim($this->request->param('password'))).$user->encrypt);
             //校验旧密码
             if($user->password === $password){
-                if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
-                    $newpassword = password($this->request->param('newpassword'));
-                    $this->user->save([
-                        'password' => $newpassword['password'],
-                        'encrypt' => $newpassword['encrypt']
-                    ],['userid' => session('userid')]);
-                    $this->success('密码修改成功', '/admin/manage/editPwd');
-                }else{
-                    $this->error('两次密码不相同', '/admin/manage/editPwd');
-                }
+                self::updatePwd(session('userid'), $this->request->param('newpassword'));
+                // if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
+                //     $newpassword = password($this->request->param('newpassword'));
+                //     $this->user->save([
+                //         'password' => $newpassword['password'],
+                //         'encrypt' => $newpassword['encrypt']
+                //     ],['userid' => session('userid')]);
+                //     $this->success('密码修改成功', '/manage/editPwd');
+                // }else{
+                //     $this->error('两次密码不相同', '/manage/editPwd');
+                // }
             }else{
-                $this->error('旧密码输入不正确', '/admin/manage/editPwd');
+                $this->error('旧密码输入不正确', '/manage/editPwd');
             }
         }
-
         return view('edit_pwd', ['user' => $user]);
     }
-	/*
+    /*
     * 创建用户
     */
     public function create()
     {
+        return view('create', ['roles' => $this->role->getRoles()]);
+    }
+	/*
+    * 保存创建用户
+    */
+    public function save()
+    {
         if($this->request->isPost()){
+
+            if(!is_username($this->request->param('username/s'))){
+                $this->error('用户名'. $this->request->param('username') .'不符合规范，请更换', '/manage/create');
+                return ;
+                //return ['status' => 'fail', 'mesg' => '用户名'. $this->request->param('username') .'不符合规范，请更换'];
+            }
+            
             $hasname = $this->user->where('username',$this->request->param('username/s'))->find();
             if($hasname){
-                return ['status' => 'fail', 'mesg' => '用户名'. $this->request->param('username') .'已经存在'];
+                $this->error('用户名'. $this->request->param('username') .'已经存在', '/manage/create');
+                return ;
+                //return ['status' => 'fail', 'mesg' => '用户名'. $this->request->param('username') .'已经存在'];
             }
 
             if(!is_password($this->request->param('password/s'))){
-                return ['status' => 'fail', 'mesg' => '密码长度需要大于6个且小于20个字符'];
+                $this->error('密码长度需要大于6个且小于20个字符', '/manage/create');
+                return ;
+                //return ['status' => 'fail', 'mesg' => '密码长度需要大于6个且小于20个字符'];
             }
 
             if($this->request->param('password/s') === $this->request->param('pwdconfirm/s')){
@@ -100,15 +115,17 @@ class Manage extends Admin
                 $user = new User($this->request->param());
                 $info = $user->allowField(true)->save();
 
-                if($info) return ['status' => 'success', 'mesg' => $info];
-                return ['status' => 'error', 'mesg' => '服务器错误，请刷新重试'];
+                if($info) return $this->success('添加成功', '/manage');
+                //if($info) return ['status' => 'success', 'mesg' => $info];
+                $this->error('用户名'. $this->request->param('username') .'不符合规范，请更换', '/manage/create');
+                return ;
+                //return ['status' => 'error', 'mesg' => '服务器错误，请刷新重试'];
 
             }else{
-                return ['status' => 'fail', 'mesg' => '两次密码不相同,请检查密码！'];
+                $this->error('用户名'. $this->request->param('username') .'不符合规范，请更换', '/manage/create');
+                return ;
+                //return ['status' => 'fail', 'mesg' => '两次密码不相同,请检查密码！'];
             }           
-        }else{
-            $role = new Role();
-            return view('create', ['roles' => $role->getRoles()]);
         }
     }
     /*
@@ -123,8 +140,18 @@ class Manage extends Admin
     */
     public function delete()
     {
-
+        if($this->request->isAjax() && $this->request->param('id')){
+            $info = User::destroy($this->request->param('id'));
+            return ['status' => 'success', 'msg' => $info];
+        }
     }
+    /*
+    * 更新密码
+    */
+   private function updatePwd($id,$pwd)
+   {
+
+   }
 }
 
 ?>

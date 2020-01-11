@@ -1,5 +1,5 @@
 {include file="public/header" /}
-<div class="layui-fluid wrapper animated fadeInRight">
+<div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
             <h3 class="ibox-title">个人资料</h3>
@@ -16,10 +16,10 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">角色：</label>
                         <div class="layui-input-block">
-                            <select name="roleid" lay-verify="required">
+                            <select name="roleid" lay-verify="required" disabled="">
                                 <option value="0">选择角色</option>
                                 {volist name="roles" id="vo"}
-                                <option value="{$key}" {eq name="key" value="$user.roleid"}selected{/eq}>{$vo}</option>
+                                <option value="{$vo.roleid}" {eq name="vo.roleid" value="$user.roleid"}selected{/eq}>{$vo.rolename}</option>
                                 {/volist}
                             </select>
                         </div>

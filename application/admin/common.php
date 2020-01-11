@@ -80,13 +80,14 @@ function is_badword($string) {
  * @return 	TRUE or FALSE
  */
 function is_username($username) {
+	$username = trim($username);
 	$strlen = strlen($username);
 	if(is_badword($username) || !preg_match("/^[a-zA-Z0-9_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/", $username)){
 		return false;
 	} elseif ( 20 < $strlen || $strlen < 2 ) {
 		return false;
 	}
-	return true;
+	return $username;
 }
 /**
  * 获取请求ip
