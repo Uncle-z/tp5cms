@@ -23,8 +23,7 @@ class Manage extends Admin
     {
 
         if($this->request->isAjax()){
-            $users = $this->user->getUsers($this->request->param('page'), $this->request->param('limit'));
-            return $users;
+            return $this->user->getUsers($this->request->param('page'), $this->request->param('limit'));
         }
         
         return view('index');

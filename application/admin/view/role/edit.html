@@ -1,0 +1,59 @@
+{include file="public/header" /}
+<div class="layui-fluid wrapper animated fadeIn">
+    <div class="layui-row">
+        <div class="layui-col-md*">
+            <h3 class="ibox-title">添加角色</h3>
+            <div class="ibox-content">
+                <form class="layui-form" action="/role/{$role.roleid}/edit" method="GET">
+                    <input type="hidden" name="do" value="edit">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">角色名称：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="rolename" required  lay-verify="required" placeholder="输入角色名称" autocomplete="off" class="layui-input" value="{$role.rolename}" disabled="">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">角色名称禁止修改</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">角色描述：</label>
+                        <div class="layui-input-block">
+                          <textarea name="discription" placeholder="请输入角色描述" class="layui-textarea">{$role.discription}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否启用</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="disable" value="1" title="启用" {eq name="role.disable" value="1"}checked{/eq}>
+                            <input type="radio" name="disable" value="0" title="禁止" {eq name="role.disable" value="0"}checked{/eq}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="listorder" required  lay-verify="required" placeholder="输入排序数字" autocomplete="off" class="layui-input" value="{$role.listorder}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="editRole">修改</button>
+                            <a href="/role" class="layui-btn layui-btn-primary">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+  layui.use('form', function(){ 
+    var form = layui.form //获取form模块 
+
+    form.on('submit(editRole)', function(data){
+        //layer.msg(JSON.stringify(data.field));
+        return true;
+    });
+
+  });
+});
+</script>
+{include file="public/footer" /}

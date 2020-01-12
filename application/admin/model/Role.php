@@ -24,10 +24,38 @@ class Role extends Model
     {
    		return $this->hasMany('User','roleid');
    	}
-
+    /*
+    * 角色关联信息获取
+    */
     public function getRoles($page = 1, $limit = 10)
     {
-      return Db::name('role')->field(['roleid','rolename'])->page($page,$limit)->order('roleid asc')->select();
+      $roles = Db::name('role')->field(['roleid','rolename'])->page($page,$limit)->order('roleid asc')->select();
+      return $roles;
+    }
+    /*
+    * 获取单个角色
+    */
+    public function getRole($id)
+    {
+      $role = Db::name('role')->where('roleid',$id)->find();
+      return $role;
+    }
+    /*
+    * 获取角色信息
+    */
+    public function asyncGetRoles($page = 1, $limit = 10)
+    {
+      $roles = Db::name('role')->page($page,$limit)->order('roleid asc')->select();
+      foreach ($roles as &$role) {
+         $role['disable'] = $role['disable'] == 0 ? '禁用' : '启用';
+      }
+
+      return [
+          "code" => 0,
+          "msg"  => "success",
+          "count"=> Db::name('role')->count(),
+          "data" => $roles
+      ];
     }
 }
 ?>
