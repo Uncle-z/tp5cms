@@ -38,10 +38,7 @@ class Manage extends Admin
         $roles = $this->role->getRoles();
 
         if($this->request->isPost()){
-            $user->save([
-                'realname' => $this->request->param('realname'),
-                'email' => $this->request->param('email')
-            ],['userid' => session('userid')]);
+            $this->user->updateMaterial($user->userid, $user->roleid, $this->request->param('realname'), $this->request->param('email'));
         }
         return view('profile',['user' => $user, 'roles' => $roles]);
     }
@@ -57,19 +54,14 @@ class Manage extends Admin
             $password = md5(md5(trim($this->request->param('password'))).$user->encrypt);
             //校验旧密码
             if($user->password === $password){
-                self::updatePwd(session('userid'), $this->request->param('newpassword'));
-                // if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
-                //     $newpassword = password($this->request->param('newpassword'));
-                //     $this->user->save([
-                //         'password' => $newpassword['password'],
-                //         'encrypt' => $newpassword['encrypt']
-                //     ],['userid' => session('userid')]);
-                //     $this->success('密码修改成功', '/manage/editPwd');
-                // }else{
-                //     $this->error('两次密码不相同', '/manage/editPwd');
-                // }
+                if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
+                    $info = $this->user->updatePwd($user->userid, $this->request->param('newpassword'));
+                    if($info) $this->success('密码修改成功', '/admin/manage/editPwd');
+                }else{
+                    $this->error('两次密码不相同', '/admin/manage/editPwd');
+                }
             }else{
-                $this->error('旧密码输入不正确', '/manage/editPwd');
+                $this->error('旧密码输入不正确', '/admin/manage/editPwd');
             }
         }
         return view('edit_pwd', ['user' => $user]);
@@ -133,25 +125,46 @@ class Manage extends Admin
     */
     public function edit()
     {
+        $user = $this->user->getUser($this->request->param('id'));
+        $roles = $this->role->getRoles();
+        if($this->request->param('do') === 'edit'){
 
+            $this->user->updateMaterial(
+                $user['userid'], 
+                $this->request->param('roleid'),
+                $this->request->param('realname'),
+                $this->request->param('email'));
+
+            $pwd = $this->request->param('password');
+            $pwdCon = $this->request->param('pwdconfirm');
+
+            if($pwd && $pwd === $pwdCon){
+                $this->user->updatePwd($user['userid'], $pwd);
+            }else if($pwd && $pwd != $pwdCon){
+                $this->error('两次密码不同，密码修改失败', '/manage/'.$user['userid'].'/edit');
+            }
+
+            $this->success('修改成功', '/manage');
+        }
+        return view('edit',['user' => $user, 'roles' => $roles]);
     }
     /*
     * 删除
     */
     public function delete()
     {
-        if($this->request->isAjax() && $this->request->param('id')){
-            $info = User::destroy($this->request->param('id'));
-            return ['status' => 'success', 'msg' => $info];
+        if($this->request->isAjax()){
+            $id = $this->request->param('id');
+            $a_f = config('admin_founder');
+
+            if(in_array($id, $a_f)){
+                return ['status' => 'fail', 'msg' => '当前管理员禁止删除！'];
+            }else{
+                $info = User::destroy($id);
+                return ['status' => 'success', 'msg' => $info];
+            }
         }
     }
-    /*
-    * 更新密码
-    */
-   private function updatePwd($id,$pwd)
-   {
-
-   }
 }
 
 ?>

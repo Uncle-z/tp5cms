@@ -58,18 +58,8 @@ $(function(){
             }
           });
         });
-      } else if(layEvent === 'edit'){ //编辑
-        layer.open({
-          type: 2,
-          area: ['780px', '560px'],
-          content: ['/manage/create', 'no']
-        });
-        
-        //同步更新缓存对应的值
-        // obj.update({
-        //   username: '123',
-        //   title: 'xxx'
-        // });
+      } else if(layEvent === 'edit'){
+        document.location.href = '/manage/'+ data.userid +'/edit';
       }
     });
   });

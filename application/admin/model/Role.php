@@ -27,7 +27,7 @@ class Role extends Model
 
     public function getRoles($page = 1, $limit = 10)
     {
-      return Db::name('role')->field(['roleid','rolename'])->page($page,$limit)->order('userid desc')->select();
+      return Db::name('role')->field(['roleid','rolename'])->page($page,$limit)->order('roleid asc')->select();
     }
 }
 ?>

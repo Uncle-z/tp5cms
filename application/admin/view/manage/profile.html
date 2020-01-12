@@ -17,7 +17,7 @@
                         <label class="layui-form-label">角色：</label>
                         <div class="layui-input-block">
                             <select name="roleid" lay-verify="required" disabled="">
-                                <option value="0">选择角色</option>
+                                <option value="">选择角色</option>
                                 {volist name="roles" id="vo"}
                                 <option value="{$vo.roleid}" {eq name="vo.roleid" value="$user.roleid"}selected{/eq}>{$vo.rolename}</option>
                                 {/volist}
