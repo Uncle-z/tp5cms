@@ -47,7 +47,7 @@ class Role extends Model
     {
       $roles = Db::name('role')->page($page,$limit)->order('roleid asc')->select();
       foreach ($roles as &$role) {
-         $role['disable'] = $role['disable'] == 0 ? '禁用' : '启用';
+          $role['disable'] = $role['disable'] == 0 ? '禁用' : '正常';
       }
 
       return [

@@ -34,7 +34,7 @@ class Index extends Admin
     {
         if($this->request->isPost()){
             if(!$this->request->param('username')){
-                $this->error('请输入用户名', '/admin/index/login');
+                $this->error('请输入用户名', '/login');
                 return;
             }
 
@@ -42,7 +42,7 @@ class Index extends Admin
             $user = User::get(['username' => $this->request->param('username')]);
             
             if(!$user){
-               $this->error('用户名'. $this->request->param('username') .'不存在', '/admin/index/login');
+               $this->error('用户名'. $this->request->param('username') .'不存在', '/login');
                 return;
             }
 
@@ -60,7 +60,7 @@ class Index extends Admin
 
                 $this->success('登录成功！', '/admin');
             }else{
-                $this->error('密码错误，请重试', '/admin/index/login');
+                $this->error('密码错误，请重试', '/login');
             }
         }else{
             return view('login');
@@ -75,7 +75,7 @@ class Index extends Admin
         session('roleid', null);
         cookie('userid', null);
         cookie('admin_username', null);
-        $this->success('退出成功！', '/admin/index/login');
+        $this->success('退出成功！', '/login');
     }
 
 }

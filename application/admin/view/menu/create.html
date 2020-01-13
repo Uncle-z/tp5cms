@@ -1,0 +1,69 @@
+{include file="public/header" /}
+<div class="layui-fluid wrapper animated fadeIn">
+    <div class="layui-row">
+        <div class="layui-col-md*">
+            <h3 class="ibox-title">添加菜单</h3>
+            <div class="ibox-content">
+                <form class="layui-form" action="/menu" method="POST">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级菜单：</label>
+                        <div class="layui-input-inline">
+                            <select name="parentid" required lay-verify="required">
+                                <option value="0">作为一级菜单</option>
+                                {volist name="menus" id="vo"}
+                                <option value="{$vo.menuid}" {eq name="$vo.menuid" value="$parentid"}selected{/eq}>{$vo.menuname}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单名称：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="menuname" required  lay-verify="required" placeholder="输入菜单名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单图标：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="menuicon" placeholder="输入菜单图标" autocomplete="off" class="layui-input" value="fa fa-home">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">路由地址：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="route" required  lay-verify="required" placeholder="输入路由地址" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">格式："/模块/控制器/方法"</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否显示</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="display" value="1" title="显示" checked>
+                            <input type="radio" name="display" value="0" title="隐藏">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="addMenu">添加</button>
+                            <a href="/menu" class="layui-btn layui-btn-primary">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+  layui.use('form', function(){ 
+    var form = layui.form //获取form模块 
+
+    form.on('submit(addMenu)', function(data){
+        //layer.msg(JSON.stringify(data.field));
+        return true;
+    });
+
+  });
+});
+</script>
+{include file="public/footer" /}

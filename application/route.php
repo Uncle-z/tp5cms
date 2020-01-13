@@ -15,9 +15,13 @@ return [
     ],
     '__rest__'=>[
         // 指向admin模块的manage控制器
-        'manage'=>'admin/manage',
-        'role'=>'admin/role',
-        'menu'=>'admin/menu',
+        'manage'    => 'admin/manage',
+        'role'      => 'admin/role',
+        'menu'      => 'admin/menu',
     ],
-
+    'login'         => 'admin/index/login',
+    'logout'        => 'admin/index/logout',
+    'profile'       => 'admin/manage/profile',
+    'editPwd'       => 'admin/manage/editPwd',
+    'childMenu/:id' => 'admin/menu/create'
 ];
