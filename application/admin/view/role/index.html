@@ -12,7 +12,9 @@
 <script type="text/html" id="barDemo">
   <button class="layui-btn layui-btn-xs" lay-event="edit">修改</button>
   <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
-  <button class="layui-btn layui-btn-info layui-btn-xs" lay-event="userList">管理账户</button>
+  <button class="layui-btn layui-btn-info layui-btn-xs" lay-event="userList">关联账户</button>
+  <button class="layui-btn layui-btn-info layui-btn-xs" lay-event="authCate">栏目权限</button>
+  <button class="layui-btn layui-btn-info layui-btn-xs" lay-event="authMenu">菜单权限</button>
 </script>
 <script type="text/html">
   ceshi
@@ -36,7 +38,7 @@ $(function(){
         {field: 'rolename', title: '角色名', width:120},
         {field: 'desc', title: '角色描述',},
         {field: 'disable', title: '状态'},
-        {fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}
+        {fixed: 'right', width:360, align:'center', toolbar: '#barDemo'}
       ]]
     });
 

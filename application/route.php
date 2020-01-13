@@ -24,5 +24,6 @@ return [
     'board'         => 'admin/index/board',
     'profile'       => 'admin/manage/profile',
     'editPwd'       => 'admin/manage/editPwd',
-    'childMenu/:id' => 'admin/menu/create'
+    'childMenu/:id' => 'admin/menu/create',
+    'setting'       => 'admin/system/index'
 ];
