@@ -67,7 +67,7 @@ class Role extends Admin
 
         if($this->request->param('do') === 'edit'){
 
-	        $info = $this->role->allowField(['discription','listorder','disable'])->save($this->request->param(),['roleid' => 
+	        $info = $this->role->allowField(['desc','listorder','disable'])->save($this->request->param(),['roleid' => 
 	        	$id]);
 	        $this->success('修改成功', '/role');
         }
