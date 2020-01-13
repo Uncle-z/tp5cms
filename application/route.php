@@ -21,6 +21,7 @@ return [
     ],
     'login'         => 'admin/index/login',
     'logout'        => 'admin/index/logout',
+    'board'         => 'admin/index/board',
     'profile'       => 'admin/manage/profile',
     'editPwd'       => 'admin/manage/editPwd',
     'childMenu/:id' => 'admin/menu/create'

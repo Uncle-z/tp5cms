@@ -55,12 +55,12 @@ class Manage extends Admin
             if($user->password === $password){
                 if($this->request->param('newpassword') === $this->request->param('rnewpassword')){
                     $info = $this->user->updatePwd($user->userid, $this->request->param('newpassword'));
-                    if($info) $this->success('密码修改成功', '/admin/manage/editPwd');
+                    if($info) $this->success('密码修改成功', '/editPwd');
                 }else{
-                    $this->error('两次密码不相同', '/admin/manage/editPwd');
+                    $this->error('两次密码不相同', '/editPwd');
                 }
             }else{
-                $this->error('旧密码输入不正确', '/admin/manage/editPwd');
+                $this->error('旧密码输入不正确', '/editPwd');
             }
         }
         return view('edit_pwd', ['user' => $user]);
