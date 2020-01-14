@@ -40,6 +40,9 @@ class Menu extends Model
     public function getMenus()
     {
         $menus = Db::name('menu')->order('menuid asc')->select();
+        foreach ($menus as &$menu) {
+            $menu['display'] = $menu['display'] == 0 ? '隐藏' : '显示';
+        }
         return $menus;
     }
     /*

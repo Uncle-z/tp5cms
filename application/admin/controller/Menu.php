@@ -17,13 +17,13 @@ class Menu extends Admin
     */
 	public function index()
     {
-        if($this->request->isAjax()){
-            return $this->menu->asyncGetMenus($this->request->param('page'), $this->request->param('limit'));
-        }
         $menus = $this->menu->getMenus();
-        $tree = new Tree($menus, ['id' => 'menuid', 'parent' => 'parentid', 'title' => 'menuname']);
-        dump($tree);
-        return view('index');
+        $tree = new Tree($menus, ['id' => 'menuid', 'parent' => 'parentid']);
+        $nodes = $tree->getNodes();
+        foreach ($nodes as &$node) {
+            $node->level = $node->getLevel();
+        }
+        return view('index', ['menus' => $nodes]);
     }
 
     public function create()

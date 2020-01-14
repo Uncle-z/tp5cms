@@ -4,7 +4,29 @@
         <div class="layui-col-md*">
             <h3 class="ibox-title">菜单管理 | <a href="/menu/create" class="layui-btn layui-btn-sm">添加菜单</a></h3>
             <div class="ibox-content">
-                <table id="data-list" lay-filter="menus"></table>
+                <table id="data-list" lay-filter="menus">
+                    <thead>
+                        <tr>
+                          <th lay-data="{field:'listorder', width:80, fixed: 'left'}">排序</th>
+                          <th lay-data="{field:'menuid', width:80}">ID</th>
+                          <th lay-data="{field:'menuname'}">菜单名称</th>
+                          <th lay-data="{field:'route', width:220}">路由地址</th>
+                          <th lay-data="{field:'display', width:80}">状态</th>
+                          <th lay-data="{fixed:'right', width:200, align:'center', toolbar: '#barDemo'}">管理操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="menus" id="vo"}
+                        <tr>
+                          <td>{$vo:listorder}</td>
+                          <td>{$vo:menuid}</td>
+                          <td>{$vo:menuname}</td>
+                          <td>{$vo:route}</td>
+                          <td>{$vo:display}</td>
+                        </tr>
+                    {/volist}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -14,9 +36,6 @@
   <button class="layui-btn layui-btn-xs" lay-event="edit">修改</button>
   <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
 </script>
-<script type="text/html">
-  ceshi
-</script>
 <script>
 $(function(){
   var ememHeight = $(window).height() -150;
@@ -24,7 +43,10 @@ $(function(){
     //获取layui模块
     var table = layui.table,
         layer = layui.layer
-
+    table.init('menus', {
+        height: ememHeight,
+        limit: 200
+    }); 
     // table.render({
     //   elem: '#data-list',
     //   height: ememHeight,
@@ -40,32 +62,32 @@ $(function(){
     //   ]]
     // });
 
-    // table.on('tool(menus)', function(obj){
-    //   var data = obj.data; 
-    //   var layEvent = obj.event;
+    table.on('tool(menus)', function(obj){
+      var data = obj.data; 
+      var layEvent = obj.event;
      
-    //   if(layEvent === 'del'){
-    //     layer.confirm('真的要删除[ '+ data.menuname +' ]么', function(index){
-    //       $.ajax({
-    //         type: 'DELETE',
-    //         url: '/menu/' + data.menuid,
-    //         success: function (res) {
-    //           if(res.status == 'success'){
-    //             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-    //             layer.close(index);
-    //             layer.msg('删除成功');
-    //           }else{
-    //             layer.msg('删除失败！'+ res.msg);
-    //           }
-    //         }
-    //       });
-    //     });
-    //   } else if(layEvent === 'edit'){
-    //     document.location.href = '/menu/'+ data.menuid +'/edit';
-    //   } else if(layEvent === 'add'){
-    //     document.location.href = '/childMenu/'+ data.menuid;
-    //   }
-    // });
+      if(layEvent === 'del'){
+        layer.confirm('真的要删除[ '+ data.menuname +' ]么', function(index){
+          $.ajax({
+            type: 'DELETE',
+            url: '/menu/' + data.menuid,
+            success: function (res) {
+              if(res.status == 'success'){
+                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                layer.close(index);
+                layer.msg('删除成功');
+              }else{
+                layer.msg('删除失败！'+ res.msg);
+              }
+            }
+          });
+        });
+      } else if(layEvent === 'edit'){
+        document.location.href = '/menu/'+ data.menuid +'/edit';
+      } else if(layEvent === 'add'){
+        document.location.href = '/childMenu/'+ data.menuid;
+      }
+    });
   });
 });
 </script>
