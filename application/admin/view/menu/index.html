@@ -25,47 +25,47 @@ $(function(){
     var table = layui.table,
         layer = layui.layer
 
-    table.render({
-      elem: '#data-list',
-      height: ememHeight,
-      url: '/menu',
-      //page: true,
-      cols: [[
-        {field: 'listorder', title: '排序', width:80, fixed: 'left'},
-        {field: 'menuid', title: 'ID', width:80},
-        {field: 'menuname', title: '菜单名称'},
-        {field: 'route', title: '路由地址',width:220},
-        {field: 'display', title: '状态', width:80},
-        {fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}
-      ]]
-    });
+    // table.render({
+    //   elem: '#data-list',
+    //   height: ememHeight,
+    //   url: '/menu',
+    //   //page: true,
+    //   cols: [[
+    //     {field: 'listorder', title: '排序', width:80, fixed: 'left'},
+    //     {field: 'menuid', title: 'ID', width:80},
+    //     {field: 'menuname', title: '菜单名称'},
+    //     {field: 'route', title: '路由地址',width:220},
+    //     {field: 'display', title: '状态', width:80},
+    //     {fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}
+    //   ]]
+    // });
 
-    table.on('tool(menus)', function(obj){
-      var data = obj.data; 
-      var layEvent = obj.event;
+    // table.on('tool(menus)', function(obj){
+    //   var data = obj.data; 
+    //   var layEvent = obj.event;
      
-      if(layEvent === 'del'){
-        layer.confirm('真的要删除[ '+ data.menuname +' ]么', function(index){
-          $.ajax({
-            type: 'DELETE',
-            url: '/menu/' + data.menuid,
-            success: function (res) {
-              if(res.status == 'success'){
-                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                layer.close(index);
-                layer.msg('删除成功');
-              }else{
-                layer.msg('删除失败！'+ res.msg);
-              }
-            }
-          });
-        });
-      } else if(layEvent === 'edit'){
-        document.location.href = '/menu/'+ data.menuid +'/edit';
-      } else if(layEvent === 'add'){
-        document.location.href = '/childMenu/'+ data.menuid;
-      }
-    });
+    //   if(layEvent === 'del'){
+    //     layer.confirm('真的要删除[ '+ data.menuname +' ]么', function(index){
+    //       $.ajax({
+    //         type: 'DELETE',
+    //         url: '/menu/' + data.menuid,
+    //         success: function (res) {
+    //           if(res.status == 'success'){
+    //             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+    //             layer.close(index);
+    //             layer.msg('删除成功');
+    //           }else{
+    //             layer.msg('删除失败！'+ res.msg);
+    //           }
+    //         }
+    //       });
+    //     });
+    //   } else if(layEvent === 'edit'){
+    //     document.location.href = '/menu/'+ data.menuid +'/edit';
+    //   } else if(layEvent === 'add'){
+    //     document.location.href = '/childMenu/'+ data.menuid;
+    //   }
+    // });
   });
 });
 </script>

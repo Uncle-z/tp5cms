@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use app\admin\controller\Admin;
 use app\admin\model\Menu as MenuModel;
+use BlueM\Tree;
 
 class Menu extends Admin
 {
@@ -19,6 +20,9 @@ class Menu extends Admin
         if($this->request->isAjax()){
             return $this->menu->asyncGetMenus($this->request->param('page'), $this->request->param('limit'));
         }
+        $menus = $this->menu->getMenus();
+        $tree = new Tree($menus, ['id' => 'menuid', 'parent' => 'parentid', 'title' => 'menuname']);
+        dump($tree);
         return view('index');
     }
 
