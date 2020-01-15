@@ -25,5 +25,6 @@ return [
     'profile'       => 'admin/manage/profile',
     'editPwd'       => 'admin/manage/editPwd',
     'childMenu/:id' => 'admin/menu/create',
-    'setting'       => 'admin/system/index'
+    'setting'       => 'admin/system/index',
+    //'__miss__'      => 'index/error/miss',
 ];

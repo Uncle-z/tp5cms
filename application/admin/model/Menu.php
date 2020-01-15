@@ -37,9 +37,9 @@ class Menu extends Model
     /*
     * 获取关联菜单
     */
-    public function getMenus()
+    public function getMenus($noid)
     {
-        $menus = Db::name('menu')->order('menuid asc')->select();
+        $menus = Db::name('menu')->where('menuid', '<>', $noid)->order('menuid asc')->select();
         foreach ($menus as &$menu) {
             $menu['display'] = $menu['display'] == 0 ? '隐藏' : '显示';
         }

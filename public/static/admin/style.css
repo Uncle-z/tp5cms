@@ -1,3 +1,6 @@
+.wrapper{
+    padding: 20px 15px;
+}
 .ibox-title {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -25,4 +28,8 @@
     border-image: none;
     border-style: solid solid none;
     border-width: 1px 0;
+}
+.space{
+    display: inline-block;
+    width: 20px;height: 1px;
 }

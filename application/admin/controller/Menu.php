@@ -17,11 +17,15 @@ class Menu extends Admin
     */
 	public function index()
     {
-        $menus = $this->menu->getMenus();
+        $menus = $this->menu->getMenus('0');
         $tree = new Tree($menus, ['id' => 'menuid', 'parent' => 'parentid']);
         $nodes = $tree->getNodes();
         foreach ($nodes as &$node) {
             $node->level = $node->getLevel();
+            $node->following = $node->getFollowingSibling();
+            $parentNode = $node->getParent();
+            $parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
+            $node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);
         }
         return view('index', ['menus' => $nodes]);
     }
@@ -29,7 +33,7 @@ class Menu extends Admin
     public function create()
     {
         $parentid = $this->request->param('id') ? $this->request->param('id') : '';
-        $menus = $this->menu->getMenus();
+        $menus = $this->menu->getMenus('0');
     	return view('create', ['menus' => $menus, 'parentid' => $parentid]);
     }
     /*
@@ -57,10 +61,12 @@ class Menu extends Admin
     {
         $id = $this->request->param('id');
         $menu = $this->menu->getMenu($id);
-        $menus = $this->menu->getMenus();
+        $menus = $this->menu->getMenus($id);
 
         if($this->request->param('do') === 'edit'){
-
+            if($id === $this->request->param('parentid')){
+                $this->error('上级菜单不能为当前修改栏目,请更换', '/menu/'.$id.'/edit');
+            }
             $info = $this->menu->allowField(['menuname','menuicon','route','parentid','listorder','display'])->save($this->request->param(),['menuid' => $id]);
             $this->success('修改成功', '/menu');
         }

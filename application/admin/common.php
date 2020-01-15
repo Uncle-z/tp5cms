@@ -106,3 +106,24 @@ function ip() {
 	}
 	return preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
 }
+/*
+* 计算占位符
+* 
+*/
+function getSpace($level, $hasSibling){
+	$level = intval($level);
+    if($level > 1){
+        $space = '<span class="space"></span>';
+        for ($i=1;$i<$level-1;$i+=1){
+        	if($hasSibling){
+        		$space .= '│<span class="space"></span>';
+        	}else{
+        		$space .= '<span class="space"></span>';
+        	}
+            
+        }
+        return $space;
+    }
+}
+
+
