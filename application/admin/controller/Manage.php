@@ -119,6 +119,18 @@ class Manage extends Admin
             }           
         }
     }
+
+    /**
+     * 显示指定的资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function read($id)
+    {
+        //
+    }
+
     /*
     * 编辑用户信息
     */
@@ -126,8 +138,7 @@ class Manage extends Admin
     {
         $user = $this->user->getUser($this->request->param('id'));
         $roles = $this->role->getRoles();
-        if($this->request->param('do') === 'edit'){
-
+        if($this->request->param('do') === 'edit'){           
             $this->user->updateMaterial(
                 $user['userid'], 
                 $this->request->param('roleid'),
@@ -146,6 +157,17 @@ class Manage extends Admin
             $this->success('修改成功', '/manage');
         }
         return view('edit',['user' => $user, 'roles' => $roles]);
+    }
+    /**
+     * 保存更新的资源
+     *
+     * @param  \think\Request  $request
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function update()
+    {
+        //
     }
     /*
     * 删除

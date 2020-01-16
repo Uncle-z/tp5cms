@@ -66,13 +66,23 @@ class Role extends Admin
         $role = $this->role->getRole($id);
 
         if($this->request->param('do') === 'edit'){
-
-	        $info = $this->role->allowField(['desc','listorder','disable'])->save($this->request->param(),['roleid' => 
-	        	$id]);
-	        $this->success('修改成功', '/role');
+            $info = $this->role->allowField(['desc','listorder','disable'])->save($this->request->param(),['roleid' => 
+                    $id]);
+            $this->success('修改成功', '/role');
         }
         
         return view('edit', ['role' => $role]);
+    }
+    /**
+     * 保存更新的资源
+     *
+     * @param  \think\Request  $request
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function update()
+    {
+        //
     }
     /*
     * 删除角色

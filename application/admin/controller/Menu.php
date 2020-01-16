@@ -73,6 +73,17 @@ class Menu extends Admin
         
         return view('edit', ['menu' => $menu, 'menus' => $menus]);
     }
+    /**
+     * 保存更新的资源
+     *
+     * @param  \think\Request  $request
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function update()
+    {
+        //
+    }
     /*
     * 删除菜单
     */
