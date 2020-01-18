@@ -2,21 +2,10 @@
 <div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
-            <h3 class="ibox-title">添加栏目</h3>
+            <h3 class="ibox-title">添加单网页</h3>
             <div class="ibox-content">
                 <form class="layui-form" action="/category" method="POST">
-                    <input type="hidden" name="typeid" value="1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">选择模型：</label>
-                        <div class="layui-input-inline">
-                            <select name="moduleid" required lay-verify="required">
-                                <option value="">请选择模型</option>
-                                {volist name="modules" id="vo"}
-                                <option value="{$vo.moduleid}">{$vo.modulename}</option>
-                                {/volist}
-                            </select>
-                        </div>
-                    </div>
+                    <input type="hidden" name="typeid" value="3">
                     <div class="layui-form-item">
                         <label class="layui-form-label">上级菜单：</label>
                         <div class="layui-input-inline">

@@ -2,26 +2,30 @@
 <div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
-            <h3 class="ibox-title">菜单管理 | <a href="/menu/create" class="layui-btn layui-btn-sm">添加菜单</a></h3>
+            <h3 class="ibox-title">栏目管理 | <a href="/category/create" class="layui-btn layui-btn-sm">添加栏目</a> |<a href="/addSinglePage" class="layui-btn layui-btn-sm">添加单网页</a> |<a href="/addOutLink" class="layui-btn layui-btn-sm">添加外部链接</a></h3>
             <div class="ibox-content">
-                <table id="data-list" lay-filter="menus">
+                <table id="data-list" lay-filter="cates">
                     <thead>
                         <tr>
                           <th lay-data="{field:'listorder', width:80, fixed: 'left'}">排序</th>
-                          <th lay-data="{field:'menuid', width:80}">ID</th>
-                          <th lay-data="{field:'menuname'}">菜单名称</th>
-                          <th lay-data="{field:'route', width:220}">路由地址</th>
+                          <th lay-data="{field:'cateid', width:80}">ID</th>
+                          <th lay-data="{field:'catename'}">菜单名称</th>
+                          <th lay-data="{field:'typeid', width:100}">栏目类型</th>
+                          <th lay-data="{field:'modulename', width:100}">所属模型</th>
+                          <th lay-data="{field:'url', width:60}">访问</th>
                           <th lay-data="{field:'display', width:80}">状态</th>
                           <th lay-data="{fixed:'right', width:200, align:'center', toolbar: '#barDemo'}">管理操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {volist name="menus" id="vo"}
+                    {volist name="cates" id="vo"}
                         <tr>
                           <td>{$vo:listorder}</td>
-                          <td>{$vo:menuid}</td>
-                          <td>{gt name="vo:level" value="1"}{$vo:space}{eq name="vo:following" value=""}└{else/}├{/eq}{/gt}<i></i> {$vo:menuname}</td>
-                          <td>{$vo:route}</td>
+                          <td>{$vo:cateid}</td>
+                          <td>{gt name="vo:level" value="1"}{$vo:space}{eq name="vo:following" value=""}└{else/}├{/eq}{/gt}<i></i> {$vo:catename}</td>
+                          <td>{$vo:typename}</td>
+                          <td>{$vo:modulename}</td>
+                          <td><a href="/{$vo:url}" target="_blank">访问</a></td>
                           <td>{$vo:display}</td>
                         </tr>
                     {/volist}
@@ -32,7 +36,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-  <button class="layui-btn layui-btn-xs" lay-event="add">添加子菜单</button>
+  <button class="layui-btn layui-btn-xs" lay-event="add">添加子栏目</button>
   <button class="layui-btn layui-btn-xs" lay-event="edit">修改</button>
   <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
 </script>
@@ -43,21 +47,21 @@ $(function(){
     //获取layui模块
     var table = layui.table,
         layer = layui.layer
-    table.init('menus', {
+    table.init('cates', {
         height: ememHeight,
         limit: 200
     });
 
-    table.on('tool(menus)', function(obj){
+    table.on('tool(cates)', function(obj){
       var data = obj.data; 
       var layEvent = obj.event;
      
       if(layEvent === 'del'){
-        var nameArr = data['menuname'].split('<i></i>');
+        var nameArr = data['catename'].split('<i></i>');
         layer.confirm('请先确认子菜单为空的菜单才可删除，否则将产生错误，真的要删除[ '+ nameArr[1] +' ]么', function(index){
           $.ajax({
             type: 'DELETE',
-            url: '/menu/' + data.menuid,
+            url: '/category/' + data.cateid,
             success: function (res) {
               if(res.status == 'success'){
                 obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
@@ -70,9 +74,9 @@ $(function(){
           });
         });
       } else if(layEvent === 'edit'){
-        document.location.href = '/menu/'+ data.menuid +'/edit';
+        document.location.href = '/category/'+ data.cateid +'/edit';
       } else if(layEvent === 'add'){
-        document.location.href = '/childMenu/'+ data.menuid;
+        document.location.href = '/childCate/'+ data.cateid;
       }
     });
   });

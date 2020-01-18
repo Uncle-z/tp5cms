@@ -18,6 +18,7 @@ return [
         'manage'    => 'admin/manage',
         'role'      => 'admin/role',
         'menu'      => 'admin/menu',
+        'category'  => 'admin/category',
     ],
     'login'         => 'admin/index/login',
     'logout'        => 'admin/index/logout',
@@ -25,6 +26,9 @@ return [
     'profile'       => 'admin/manage/profile',
     'editPwd'       => 'admin/manage/editPwd',
     'childMenu/:id' => 'admin/menu/create',
+    'childCate/:id' => 'admin/category/create',
+    'addSinglePage' => 'admin/category/addSinglePage',
+    'addOutLink'    => 'admin/category/addOutLink',
     'setting'       => 'admin/system/index',
     //'__miss__'      => 'index/error/miss',
 ];
