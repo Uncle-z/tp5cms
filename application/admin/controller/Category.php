@@ -30,6 +30,7 @@ class Category extends Admin
         foreach ($nodes as &$node) {
             $node->level = $node->getLevel();
             $node->following = $node->getFollowingSibling();
+            $node->hasChildren = $node->hasChildren();
             $parentNode = $node->getParent();
             $parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
             $node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);
@@ -81,7 +82,18 @@ class Category extends Admin
      */
     public function save()
     {
-        //
+        if($this->request->isPost()){
+            if(!is_username($this->request->param('catename/s'))){
+                $this->error('栏目名称[ '. $this->request->param('catename') .' ]不符合规范，请更换', '/category/create');
+                return ;
+            }
+
+            $menu = new CategoryModel($this->request->param());
+            $info = $menu->allowField(true)->save();
+            if($info) return $this->success('添加成功', '/category');
+
+        }
+        return view('create');
     }
 
     /**
@@ -103,7 +115,20 @@ class Category extends Admin
      */
     public function edit($id)
     {
-        //
+        $id = $this->request->param('id');
+        $cate = $this->category->getCate($id);
+        $cates = $this->category->getCates($id);
+        $modules = $this->module->getModules();
+
+        if($this->request->param('do') === 'edit'){
+            if($id === $this->request->param('parentid')){
+                $this->error('上级栏目不能为当前修改栏目,请更换', '/category/'.$id.'/edit');
+            }
+            $info = $this->menu->allowField(['catename','route','parentid','listorder','display'])->save($this->request->param(),['cateid' => $id]);
+            $this->success('修改成功', '/category');
+        }
+
+        return view('edit', ['cate' => $cate, 'cates' => $cates, 'modules' => $modules]);
     }
 
     /**

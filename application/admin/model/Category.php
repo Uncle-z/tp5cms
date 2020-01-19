@@ -23,7 +23,7 @@ class Category extends Model
     */
     public function asyncGetCate($page = 1, $limit = 10)
     {
-        $categories = Db::name('categroy')->page($page,$limit)->order('cateid asc')->select();
+        $categories = Db::name('category')->page($page,$limit)->order('cateid asc')->select();
         foreach ($categories as &$cate) {
             $cate['display'] = $cate['display'] == 0 ? '隐藏' : '显示';
         }
@@ -31,7 +31,7 @@ class Category extends Model
         return [
             "code" => 0,
             "msg"  => "success",
-            "count"=> Db::name('categroy')->count(),
+            "count"=> Db::name('category')->count(),
             "data" => $categories
         ];
     }
@@ -53,7 +53,7 @@ class Category extends Model
     */
     public function getCate($id)
     {
-        $cate = Db::name('categroy')->where('cateid', $id)->find();
+        $cate = Db::name('category')->where('cateid', $id)->find();
         return $cate;
     }
 }
