@@ -2,68 +2,80 @@
 <div class="layui-fluid wrapper animated fadeIn">
     <div class="layui-row">
         <div class="layui-col-md*">
-            <h3 class="ibox-title">修改菜单</h3>
+            <h3 class="ibox-title">修改栏目</h3>
             <div class="ibox-content">
-                <form class="layui-form" action="/menu/{$menu.menuid}/edit" method="GET">
+                <form class="layui-form" action="/category/{$cate.cateid}/edit" method="GET">
                     <input type="hidden" name="do" value="edit">
+                    <input type="hidden" name="typeid" value="{$cate.typeid}">
+                    {eq name="$cate.typeid" value="1"}
                     <div class="layui-form-item">
                         <label class="layui-form-label">选择模型：</label>
                         <div class="layui-input-inline">
-                            <select name="parentid" required lay-verify="required" disabled="">
+                            <select name="moduleid" required lay-verify="required" disabled="">
                                 <option value="">请选择模型</option>
-                                {volist name="menus" id="vo"}
-                                <option value="{$vo.menuid}" {eq name="$vo.moduleid" value="$moduleid"}selected{/eq}>{$vo.menuname}</option>
+                                {volist name="modules" id="vo"}
+                                <option value="{$vo.moduleid}" {eq name="$vo.moduleid" value="$cate.moduleid"}selected{/eq}>{$vo.modulename}</option>
                                 {/volist}
                             </select>
                         </div>
+                        <div class="layui-form-mid layui-word-aux">栏目下数据为0时可修改</div>
                     </div>
+                    {/eq}
                     <div class="layui-form-item">
-                        <label class="layui-form-label">上级菜单：</label>
+                        <label class="layui-form-label">上级栏目：</label>
                         <div class="layui-input-inline">
                             <select name="parentid" required lay-verify="required">
-                                <option value="0">作为一级菜单</option>
-                                {volist name="menus" id="vo"}
-                                <option value="{$vo.menuid}" {eq name="vo.menuid" value="$menu.parentid"}selected{/eq}>{$vo.menuname}</option>
+                                <option value="0">作为一级栏目</option>
+                                {volist name="cates" id="vo"}
+                                <option value="{$vo.cateid}" {eq name="$vo.cateid" value="$cate.parentid"}selected{/eq}>{$vo.catename}</option>
                                 {/volist}
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">菜单名称：</label>
+                        <label class="layui-form-label">栏目名称：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="menuname" required  lay-verify="required" placeholder="输入菜单名称" autocomplete="off" class="layui-input" value="{$menu.menuname}">
+                            <input type="text" name="catename" required  lay-verify="required" placeholder="输入菜单名称" autocomplete="off" class="layui-input" value="{$cate.catename}">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">菜单图标：</label>
+                        <label class="layui-form-label">英文目录：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="menuicon" placeholder="输入菜单图标" autocomplete="off" class="layui-input" value="{$menu.menuicon}">
+                            <input type="text" name="englishdir" placeholder="输入英文目录" autocomplete="off" class="layui-input" value="{$cate.englishdir}">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">路由地址：</label>
+                        <label class="layui-form-label">栏目图片：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="route" required  lay-verify="required" placeholder="输入路由地址" autocomplete="off" class="layui-input" value="{$menu.route}">
+                            <input type="text" name="image" required  lay-verify="required" placeholder="选择栏目图片" autocomplete="off" class="layui-input" value="{$cate.image}">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">格式："/模块/控制器/方法"</div>
+                        <div class="layui-input-inline"><button type="button" class="layui-btn layui-btn-normal" onclick="javascript:return uploadImage();"><i class="layui-icon">&#xe67c;</i>选择图片</button></div>
                     </div>
+                    {eq name="$cate.typeid" value="2"}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">链接地址：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="url" required  lay-verify="required" placeholder="输入链接地址" autocomplete="off" class="layui-input" value="{$cate.url}">
+                        </div>
+                    </div>
+                    {/eq}
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否显示</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="display" value="1" title="显示" {eq name="menu.display" value="1" }checked{/eq}>
-                            <input type="radio" name="display" value="0" title="隐藏" {eq name="menu.display" value="0" }checked{/eq}>
+                            <input type="radio" name="display" value="1" title="显示" {eq name="cate.display" value="1" }checked{/eq}>
+                            <input type="radio" name="display" value="0" title="隐藏" {eq name="cate.display" value="0" }checked{/eq}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">排序：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="listorder" required  lay-verify="required" placeholder="输入排序数字" autocomplete="off" class="layui-input" value="{$menu.listorder}">
+                            <input type="text" name="listorder" required  lay-verify="required" placeholder="输入排序数字" autocomplete="off" class="layui-input" value="{$cate.listorder}">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="editMenu">修改</button>
-                            <a href="/menu" class="layui-btn layui-btn-primary">返回</a>
+                            <button class="layui-btn" lay-submit lay-filter="editCate">修改</button>
+                            <a href="/category" class="layui-btn layui-btn-primary">返回</a>
                         </div>
                     </div>
                 </form>
@@ -73,10 +85,10 @@
 </div>
 <script>
 $(function(){
-  layui.use('form', function(){ 
+  layui.use(['layer','form','element'], function(){ 
     var form = layui.form //获取form模块 
 
-    form.on('submit(editMenu)', function(data){
+    form.on('submit(editCate)', function(data){
         //layer.msg(JSON.stringify(data.field));
         return true;
     });

@@ -81,7 +81,28 @@ class Category extends Admin
      */
     public function save()
     {
-        //
+        if($this->request->isPost()){
+
+            if($this->request->param('typeid') === 1 && !$this->request->param('moduleid')){
+                $this->error('请选择栏目模型', '/category/create');
+                return ;
+            }
+
+            if($this->request->param('typeid') === 2 && !$this->request->param('url')){
+                $this->error('请输入外部链接地址', '/category/outLink');
+                return ;
+            }
+
+            if(!is_username($this->request->param('catename/s'))){
+                $this->error('栏目名称[ '. $this->request->param('catename') .' ]不符合规范，请更换', '/category/create');
+                return ;
+            }
+
+            $cate = new CategoryModel($this->request->param());
+            $info = $cate->allowField(true)->save();
+            if($info) return $this->success('添加成功', '/category');
+        }
+        return view('index');
     }
 
     /**
@@ -103,7 +124,20 @@ class Category extends Admin
      */
     public function edit($id)
     {
-        //
+        $id = $this->request->param('id');
+        $cate = $this->category->getCate($id);
+        $cates = $this->category->getCates('0');
+        $modules = $this->module->getModules();
+
+        if($this->request->param('do') === 'edit'){
+            if($id === $this->request->param('parentid')){
+                $this->error('上级菜单不能为当前修改栏目,请更换', '/category/'.$id.'/edit');
+            }
+            $info = $this->category->allowField(['moduleid','catename','parentid','englishdir','image','listorder','display'])->save($this->request->param(),['cateid' => $id]);
+            $this->success('修改成功', '/category');
+        }
+
+        return view('edit', ['cate' => $cate, 'cates' => $cates, 'modules' => $modules]);
     }
 
     /**
