@@ -56,7 +56,6 @@ class Category extends Model
         $cate = Db::name('category')->where('cateid', $id)->find();
         $cate['typename'] = Db::name('category_type')->where('typeid', $cate['typeid'])->value('typename');
         $cate['modulename'] = Db::name('module')->where('moduleid', $cate['moduleid'])->value('modulename');
-        
         return $cate;
     }
 }

@@ -30,6 +30,7 @@ class Category extends Admin
         foreach ($nodes as &$node) {
             $node->level = $node->getLevel();
             $node->following = $node->getFollowingSibling();
+            $node->hasChildren = $node->hasChildren();
             $parentNode = $node->getParent();
             $parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
             $node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);
