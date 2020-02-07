@@ -45,7 +45,7 @@
                         <div class="layui-input-inline">
                             <input type="text" name="image" required  lay-verify="required" placeholder="选择栏目图片" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-input-inline"><button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe67c;</i>选择图片</button></div>
+                        <div class="layui-input-inline"><button type="button" id="choose" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe67c;</i>选择图片</button></div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">栏目介绍：</label>
@@ -73,12 +73,24 @@
 </div>
 <script>
 $(function(){
-  layui.use('form', function(){ 
-    var form = layui.form //获取form模块 
+  layui.use(['form','upload'], function(){ 
+    var form = layui.form,
+    upload = layui.upload
 
     form.on('submit(addCate)', function(data){
         //layer.msg(JSON.stringify(data.field));
         return true;
+    });
+
+    upload.render({
+        elem: '#choose',
+        url: '/upload',
+        //multiple: true,
+        accept: 'file', //普通文件
+        done: function(res){
+            layer.msg('上传成功');
+            console.log(res)
+        }
     });
 
   });

@@ -30,5 +30,6 @@ return [
     'addSinglePage' => 'admin/category/addSinglePage',
     'addOutLink'    => 'admin/category/addOutLink',
     'setting'       => 'admin/system/index',
+    'uploadImg'     => 'admin/upload/image',
     //'__miss__'      => 'index/error/miss',
 ];

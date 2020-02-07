@@ -49,7 +49,7 @@
                         <div class="layui-input-inline">
                             <input type="text" name="image" required  lay-verify="required" placeholder="选择栏目图片" autocomplete="off" class="layui-input" value="{$cate.image}">
                         </div>
-                        <div class="layui-input-inline"><button type="button" class="layui-btn layui-btn-normal" onclick="javascript:return uploadImage();"><i class="layui-icon">&#xe67c;</i>选择图片</button></div>
+                        <div class="layui-input-inline"><button type="button" id="choose" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe67c;</i>选择图片</button></div>
                     </div>
                     {eq name="$cate.typeid" value="2"}
                     <div class="layui-form-item">
@@ -84,13 +84,30 @@
     </div>
 </div>
 <script>
+function imgupload(){
+    $.post('/uploadImg',function(res){
+        console.log(res);
+    })
+}
 $(function(){
-  layui.use(['layer','form','element'], function(){ 
-    var form = layui.form //获取form模块 
+  layui.use(['layer','form','element','upload'], function(){ 
+    var form = layui.form,
+    upload = layui.upload
 
     form.on('submit(editCate)', function(data){
         //layer.msg(JSON.stringify(data.field));
         return true;
+    });
+
+    upload.render({
+        elem: '#choose',
+        url: '/uploadImg',
+        field: 'image',
+        accept: 'file',
+        done: function(res){
+            layer.msg('上传成功22');
+            console.log(res)
+        }
     });
 
   });
