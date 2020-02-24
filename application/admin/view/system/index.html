@@ -1,0 +1,45 @@
+{include file="public/header" /}
+<div class="layui-fluid wrapper animated fadeIn">
+    <div class="layui-row">
+        <div class="layui-col-md*">
+            <h3 class="ibox-title">系统参数设置</h3>
+            <div class="ibox-content">
+                <form class="layui-form" action="/system/{$system.siteid}/edit" method="GET">
+                    <input type="hidden" name="do" value="edit">
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">网站名称：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="catename" required  lay-verify="required" placeholder="输入菜单名称" autocomplete="off" class="layui-input" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">英文目录：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="englishdir" placeholder="输入英文目录" autocomplete="off" class="layui-input" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="editSystem">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+  layui.use('form', function(){ 
+    var form = layui.form
+
+    form.on('submit(editSystem)', function(data){
+        //layer.msg(JSON.stringify(data.field));
+        return true;
+    });
+
+  });
+});
+</script>
+{include file="public/footer" /}
