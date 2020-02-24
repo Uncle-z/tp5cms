@@ -84,11 +84,6 @@
     </div>
 </div>
 <script>
-function imgupload(){
-    $.post('/uploadImg',function(res){
-        console.log(res);
-    })
-}
 $(function(){
   layui.use(['layer','form','element','upload'], function(){ 
     var form = layui.form,
@@ -101,12 +96,15 @@ $(function(){
 
     upload.render({
         elem: '#choose',
-        url: '/uploadImg',
-        field: 'image',
+        url: '/upload/image',
         accept: 'file',
         done: function(res){
-            layer.msg('上传成功22');
-            console.log(res)
+            if(res.status === 'success'){
+                layer.msg('上传成功');
+                $("input[name='image']").val(res.imgurl);
+            }else{
+                layer.msg('上传失败：'+res.msg);
+            }
         }
     });
 

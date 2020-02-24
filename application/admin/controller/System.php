@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 use app\admin\controller\Admin;
+use app\admin\model\System as SystemModel;
 
 /**
 *author: uncle;
@@ -10,13 +11,15 @@ use app\admin\controller\Admin;
 class System extends Admin
 {
 
-    function __construct()
+    function __construct(SystemModel $system)
     {
         parent::__construct();
+        $this->system = $system;
     }
     public function index()
     {
-    	return '系统参数设定';
+        $params = '';
+    	return view('index', ['params' => $params]);
     }
 }
 ?>

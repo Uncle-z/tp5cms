@@ -37,7 +37,9 @@ class Manage extends Admin
         $roles = $this->role->getRoles();
 
         if($this->request->isPost()){
-            $this->user->updateMaterial($user->userid, $user->roleid, $this->request->param('realname'), $this->request->param('email'));
+            $info = $this->user->updateMaterial($user->userid, $user->roleid, $this->request->param('realname'), $this->request->param('email'));
+            //$this->redirect('/profile');
+            $this->success('修改成功', '/profile');
         }
         return view('profile',['user' => $user, 'roles' => $roles]);
     }

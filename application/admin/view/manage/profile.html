@@ -6,7 +6,7 @@
             <div class="ibox-content">
                 <!-- <div>最后登录时间：{$user.lastlogintime|date='Y-m-d H:i:s',###}</div>
                 <div>最后登录ip：{$user.lastloginip}</div> -->
-                <form class="layui-form" action="/admin/manage/profile" method="POST">
+                <form class="layui-form" action="/profile" method="POST">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名：</label>
                         <div class="layui-input-block">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="formDemo">修改</button>
+                            <button class="layui-btn" lay-submit lay-filter="editProfile">修改</button>
                             <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
                         </div>
                     </div>
@@ -51,6 +51,12 @@
 $(function(){
   layui.use('form', function(){ 
     var form = layui.form //获取form模块 
+
+    form.on('submit(editProfile)', function(data){
+        //layer.msg(JSON.stringify(data.field));
+        return true;
+    });
+
   });
 });
 </script>
