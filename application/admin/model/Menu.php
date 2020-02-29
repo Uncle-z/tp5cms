@@ -23,10 +23,7 @@ class Menu extends Model
     public function asyncGetMenus($page = 1, $limit = 10)
     {
         $menus = Db::name('menu')->page($page,$limit)->order('menuid asc')->select();
-        foreach ($menus as &$menu) {
-            $menu['display'] = $menu['display'] == 0 ? '隐藏' : '显示';
-        }
-
+        
         return [
             "code" => 0,
             "msg"  => "success",
@@ -40,9 +37,6 @@ class Menu extends Model
     public function getMenus($noid)
     {
         $menus = Db::name('menu')->where('menuid', '<>', $noid)->order('menuid asc')->select();
-        foreach ($menus as &$menu) {
-            $menu['display'] = $menu['display'] == 0 ? '隐藏' : '显示';
-        }
         return $menus;
     }
     /*

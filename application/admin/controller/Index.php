@@ -23,13 +23,14 @@ class Index extends Admin
     {
         $menus = $this->menu->getMenus('0');
         $tree = new Tree($menus, ['id' => 'menuid', 'parent' => 'parentid']);
-        $nodes = $tree->getNodes();
+        $nodes = $tree->getRootNodes();
+        //$nodes = $tree->getNodes();
         foreach ($nodes as &$node) {
             $node->level = $node->getLevel();
             $node->following = $node->getFollowingSibling();
-            $parentNode = $node->getParent();
-            $parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
-            $node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);
+            //$parentNode = $node->getParent();
+            //$parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
+            //$node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);
         }
         //dump($nodes);
         $rolename = Role::where('roleid',session('roleid'))->value('rolename');

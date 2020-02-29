@@ -17,13 +17,13 @@
                     </thead>
                     <tbody>
                     {volist name="menus" id="vo"}
-                        <tr>
-                          <td>{$vo:listorder}</td>
-                          <td>{$vo:menuid}</td>
-                          <td>{gt name="vo:level" value="1"}{$vo:space}{eq name="vo:following" value=""}└{else/}├{/eq}{/gt}<i></i> {$vo:menuname}</td>
-                          <td>{$vo:route}</td>
-                          <td>{$vo:display}</td>
-                        </tr>
+                      <tr>
+                        <td>{$vo:listorder}</td>
+                        <td>{$vo:menuid}</td>
+                        <td>{gt name="vo:level" value="1"}{$vo:space}{eq name="vo:following" value=""}└{else/}├{/eq}{/gt}<i></i> {$vo:menuname}</td>
+                        <td>{$vo:route}</td>
+                        <td>{$vo:display}</td>
+                      </tr>
                     {/volist}
                     </tbody>
                 </table>
