@@ -26,8 +26,10 @@ class Index extends Admin
         $nodes = $tree->getRootNodes();
         //$nodes = $tree->getNodes();
         foreach ($nodes as &$node) {
+            $node->hasChildren = $node->hasChildren();
             $node->level = $node->getLevel();
             $node->following = $node->getFollowingSibling();
+            $node->descendants = $node->getDescendants();
             //$parentNode = $node->getParent();
             //$parentFlowing = $parentNode->parent ? $parentNode->getFollowingSibling() : null;
             //$node->space = $parentFlowing ? getSpace($node->level, true) : getSpace($node->level, false);

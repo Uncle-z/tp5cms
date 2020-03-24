@@ -48,20 +48,13 @@
                             <span class="nav-label">{$vo:menuname}</span>
                             <span class="fa arrow"></span>
                         </a>
-                        <!-- <ul class="nav nav-second-level">
+                        <ul class="nav nav-second-level">
+                            {volist name="vo:descendants" id="vo1"}
                             <li>
-                                <a class="J_menuItem" href="/profile">个人资料</a>
+                                <a class="J_menuItem" href="/{$vo1:route}">{$vo1:menuname}</a>
                             </li>
-                            <li>
-                                <a class="J_menuItem" href="/editPwd">修改密码</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/manage">账号管理</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/role">角色管理</a>
-                            </li>
-                        </ul> -->
+                            {/volist}
+                        </ul>
                     </li>
                     {/volist}
                     <!-- <li>
